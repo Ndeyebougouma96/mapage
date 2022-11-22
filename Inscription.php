@@ -35,7 +35,7 @@ if ($select_mail->rowCount() > 0)
    $matricule2 = $dbco->prepare($sql2);
    $matricule2->execute();
 
-   $conte ="L\'INSCRIPTION VALIDÉ AVEC SUCCÉS".$matricule;
+   $conte ="L\'INSCRIPTION VALIDÉ AVEC SUCCÉS" .$matricule;
   
 }
 
@@ -206,7 +206,7 @@ $('#error5').html(checkStrength($('#conf_mot_de_passe').val()))
               <div class="row">
               <div class="col-md-6">
                 <label for="photo" class="form-label">Ajouter photo</label>
-                <input id="photo" class="form-control" type="file" name="photo" placeholder="Ajouter votre photo">
+                <input id="photo" class="form-control" type="file" name="photo" accept=".jpg,.jpeg,.png" placeholder="Ajouter votre photo">
               </div>
             </div>
         

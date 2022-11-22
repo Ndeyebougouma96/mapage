@@ -47,3 +47,19 @@ let email = document.getElementById("email");
      error1.style.color = 'green';
      mot_de_passe.style.borderColor = "#008a00";
  })
+ function validation()
+{
+var expressionReguliere = /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+document.getElementById(error).innerHTML = "";
+if (expressionReguliere.test(document.getElementById('email').value))
+{
+document.getElementById(error).innerHTML ="L'adresse mail est valide";
+document.getElementById(error).style.color = green;
+}
+else
+{
+document.getElementById(error).innerHTML = "L'adresse mail n'est pas valide";
+document.getElementById(error).style.color = red;
+}
+return false;
+}

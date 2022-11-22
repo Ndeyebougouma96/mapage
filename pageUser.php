@@ -2,7 +2,13 @@
 session_start();/* il faut avoir session_start pour utiliser une variable session */
 include('basse/BD.php');
 
+$articles;
+
+$articles=$dbco->query('SELECT nom FROM USER ORDER BY id DESC');
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,25 +31,26 @@ include('basse/BD.php');
     while ($rid = $select->fetch(PDO::FETCH_ASSOC)) {/* permet de parcourir la table et d'afficher les donnes */
      $prenom = $rid['prenom'];
      $nom = $rid['nom'];
+       $matricule = $rid['matricule'];
     }
   ?>
-    <div class="container p-0 bg-light " style="height: 650px; width:90%; box-shadow:0 4px 8px 0px rgb(0 0 0/30%); border-radius:15px;">
+  <div class="container p-0 bg-light" style="height: 600px; width:90%; box-shadow:0 4px 8px 0px rgb(0 0 0/30%); border-radius:15px">
   
-        <nav class="d-flex" style="background-color:#160F30; height:140px; margin:10px;">
-    <div class="d-flex" style="margin: 25px;"><img src="image/i.jpg" width="70%" height="70px"></div>
-    <div class="d-flex" style="flex-wrap:wrap ; width:50%;">
- <h1 style="color:white ;"><?php echo $prenom. " ".$nom; ?></h1><!-- afficher le nom et prenom de la personne connecter -->
-        <div class="d-flex">
-        <div class="d-flex" style="width:100%; height:30px; background-color:bisque;">
-        <input id="rech" class="form-control" type="text" placeholder="Rechercher">
+        <nav class="d-flex" style="background-color:#160F30; height:180px; margin:10px;">
+    <div class="d-flex" style="margin: 25px; flex-wrap:wrap;"><img src="data:image/jpg;base64,<?= base64_encode($_SESSION['photo'])?>" width="70%" height="70px">
+     <h5 style="color:white ;"><?php echo $matricule; ?></h5></div>
+    <div class="d-flex" style="flex-wrap:wrap ; width:40%;">
+         <h1 style="color:white; margin-top:20px"><?php echo $prenom. " ".$nom; ?></h1><!-- afficher le nom et prenom de la personne connecter -->
+        <div class="d-flex" style=" width: 70%;">
+          <form method="GET">
+        <div class="d-flex" style="width:100%; height:30px; background-color:bisque; gap:5px;">
+        <input id="rech" class="form-control" type="Search" name="q" placeholder="Rechercher">
+        <button class="btn btn-btn" style="background-color:#0096D7 ; color:white; width:50%; height:30px; " name="valider" type="submit">RECHERCHE</button>
         </div>
-         <div class="d-flex justify-content-center" style="width:70%; height:30px; ">
-          <button class="btn btn-btn" style="background-color:orange; ; color:white;" type="submit">RECHERCHE</button>
-          </div>
+          </form>
         </div>
     </div>
-  
-    <div class="d-flex justify-content-center" style="margin-left:300px ; background-color:black; height:30px; margin-top:80px"><a href="connexionAD.php"><i class="fa-solid fa-right-from-bracket" style="height:30px; width:100%; color:white;"></i></a></div>
+<div class="d-flex justify-content-center" style="margin-left:400px ; background-color:black; height:30px; margin-top:80px"><a href="deconnexion.php"><i class="fa-solid fa-right-from-bracket" style="height:30px; width:100%; color:white;"></i></a></div>
 </nav>
 
     <div class="container">
@@ -57,6 +64,15 @@ include('basse/BD.php');
  echo '<table  class="table table-bordered table-striped"> <tr style="background:#0096D7; color:white;">';
    
 $bass = $dbco->query("SELECT matricule,nom,prenom,email,roles FROM USER where roles='Utilisateur' AND ID!= $ses");
+
+       if(isset($_GET['valider']) && !empty($_GET['q'])){/* permet d'effectuer la recherche */
+  $q= htmlspecialchars($_GET['q']);
+
+
+$bass=$dbco->query('SELECT matricule,nom,prenom,email,roles FROM USER where nom LIKE "%'.$q.'%" ');
+  // var_dump($bass);die;
+$bass->execute();
+ }
 
   for($i=0; $i <  $bass->columnCount(); $i++)
 

@@ -40,7 +40,7 @@ $articles=$dbco->query('SELECT nom FROM USER ORDER BY id DESC');
     <div class="container p-0 bg-light" style="height: 600px; width:90%; box-shadow:0 4px 8px 0px rgb(0 0 0/30%); border-radius:15px">
   
         <nav class="d-flex" style="background-color:#160F30; height:180px; margin:10px;">
-    <div class="d-flex" style="margin: 25px; flex-wrap:wrap;"><img src="data:image/jpg;base64,<?= base64_encode($_SESSION['photo'])?>" width="70%" height="70px">
+    <div class="d-flex" style="margin: 25px; flex-wrap:wrap;"><img src="data:image;base64,<?= base64_encode($_SESSION['photo'])?>" width="70%" height="70px">
      <h5 style="color:white ;"><?php echo $matricule; ?></h5></div>
     <div class="d-flex" style="flex-wrap:wrap ; width:40%;">
          <h1 style="color:white; margin-top:20px"><?php echo $prenom. " ".$nom; ?></h1><!-- afficher le nom et prenom de la personne connecter -->
@@ -71,12 +71,7 @@ include('basse/BD.php');
 $bass = $dbco->query("SELECT matricule,nom,prenom,email,roles,etat  FROM USER where etat=0 AND ID!= $ses");
 
 /* ID!=$ses pour ne pas afficher la personne connecter */
-if(isset($_GET['valider']) && !empty($_GET['q'])){/* permet d'effecter la recherche */
-  $q= htmlspecialchars($_GET['q']);
 
-$bass=$dbco->query('SELECT matricule,nom,prenom,email,roles,etat FROM USER where nom LIKE "%'.$q.'%" ORDER BY id DESC');
-$bass->execute();
-}
 
   for($i=0; $i <  $bass->columnCount(); $i++)
 
@@ -110,6 +105,15 @@ $bass->execute();
       $bass = $dbco->prepare("SELECT * FROM USER WHERE etat=0  AND ID!=$id ORDER BY id desc LIMIT $first,$mapage");
       $bass->execute();
         // var_dump($bass);die; 
+
+        if(isset($_GET['valider']) && !empty($_GET['q'])){/* permet d'effectuer la recherche */
+  $q= htmlspecialchars($_GET['q']);
+
+
+$bass=$dbco->query('SELECT matricule,nom,prenom,email,roles,etat FROM USER where nom LIKE "%'.$q.'%" ');
+  // var_dump($bass);die;
+$bass->execute();
+}
 
               
   echo "</tr>";

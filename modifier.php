@@ -64,19 +64,19 @@ if(isset($_POST['nom'],$_POST['prenom'],$_POST['email'])){
         
             <div class="row " > <!-- mt=margin-top  -->
               <div class="col-md-6">
-                <label for="nom" class="form-label">Nom</label>
+                <label for="nom" class="form-label">Nom<span class="text-danger">*</span></label>
                 <input id="nom" class="form-control bg-light border border-dark" type="text" name="nom"  value="<?= $check["nom"] ?? null  ?>" placeholder="Entrer votre nom">
                 <p id="error"></p>
               </div>
               <div class="col-md-6">
-                <label for="prenom" class="form-label" >Prénom</label>
+                <label for="prenom" class="form-label" >Prénom<span class="text-danger">*</span></label>
                 <input id="prenom" class="form-control bg-light border border-dark" type="text" name="prenom"  value="<?= $check["prenom"] ?? null  ?>" placeholder="Entrer votre prénom">
                 <p id="error1"></p>
               </div>
             </div>
             <div class="row ">
               <div class="col-md-6">
-                <label for="mail" class="form-label">Mail</label>
+                <label for="mail" class="form-label">Mail<span class="text-danger">*</span></label>
                 <input id="email" class="form-control bg-light border border-dark" type="email" name="email"  value="<?= $check["email"] ?? null  ?>" placeholder="Entrer votre mail">
                 <p id="error2"></p>
           
@@ -88,7 +88,7 @@ if(isset($_POST['nom'],$_POST['prenom'],$_POST['email'])){
           </div>
         </form>
         </div> 
-               <script  src="inscr.js"></script>
+               <script  src="modif.js"></script>
               
 </body>
 
