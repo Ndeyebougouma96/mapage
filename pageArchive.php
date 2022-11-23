@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('basse/BD.php');
 $articles;
 
@@ -17,18 +18,32 @@ $articles=$dbco->query('SELECT nom FROM USER ORDER BY id DESC');
  <!-- ICON SCRIPT -->
     <title>Document</title>
 </head>
-<body class="d-flex justify-content-center" style="background-color:whitesmoke;">
-    <div class="container p-0 bg-light" style="height: 650px; width:90%;box-shadow:0 4px 8px 0px rgb(0 0 0/30%); border-radius:15px;">
+<body class="d-flex justify-content-center" style="background-color:whitesmoke; ">
+<?php 
+/* $_session variable glogal pour recuperer un variable */
+  $ses=$_SESSION['identifiant'];/* permet de recuperer l'identifiant de la personne connecter */
+  $select=$dbco->prepare("SELECT * FROM USER where ID=$ses");/* prepare la requete de l'identifiant recuperer */
+  $select->execute();
+ 
+    while ($rid = $select->fetch(PDO::FETCH_ASSOC)) {/* permet de parcourir la table et d'afficher les donnes */
+     $prenom = $rid['prenom'];
+     $nom = $rid['nom'];
+     $matricule = $rid['matricule'];
+    }
+  ?>
+
+    <div class="container p-0 bg-light" style="height: 600px; width:90%; box-shadow:0 4px 8px 0px rgb(0 0 0/30%); border-radius:15px">
   
-        <nav class="d-flex" style="background-color:#160F30; height:170px; margin:10px;">
-    <div class="d-flex" style="margin: 25px;"><img src="image/i.jpg" width="70%" height="70px"></div>
+        <nav class="d-flex" style="background-color:#160F30; height:180px; margin:10px;">
+    <div class="d-flex" style="margin: 25px; flex-wrap:wrap;"><img src="data:image;base64,<?= base64_encode($_SESSION['photo'])?>" width="70%" height="70px">
+     <h5 style="color:white ;"><?php echo $matricule; ?></h5></div>
     <div class="d-flex" style="flex-wrap:wrap ; width:40%;">
-        <h1 style="color:white ;">NDEYE BOUGOUMA SY</h1>
+         <h1 style="color:white; margin-top:20px"><?php echo $prenom. " ".$nom; ?></h1><!-- afficher le nom et prenom de la personne connecter -->
         <div class="d-flex" style=" width: 70%;">
           <form method="GET">
         <div class="d-flex" style="width:100%; height:30px; background-color:bisque; gap:5px;">
         <input id="rech" class="form-control" type="Search" name="q" placeholder="Rechercher">
-        <button class="btn btn-btn" style="background-color:orange; ; color:white; width:50%; height:30px; " name="valider" type="submit">RECHERCHE</button>
+        <button class="btn btn-btn" style="background-color:#0096D7 ; color:white; width:50%; height:30px; " name="valider" type="submit">RECHERCHE</button>
         </div>
           </form>
         </div>
